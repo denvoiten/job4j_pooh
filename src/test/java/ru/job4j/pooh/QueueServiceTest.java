@@ -34,17 +34,4 @@ public class QueueServiceTest {
         assertThat(result.status(), is("204 No Content"));
         assertThat(result.text(), is(""));
     }
-
-    @Test
-    public void whenPostWithEmptyParamThenGetQueue() {
-        Resp process = queueService.process(
-                new Req("POST", "queue", "weather", "")
-        );
-        Resp result = queueService.process(
-                new Req("GET", "queue", "weather", null)
-        );
-        assertThat(process.status(), is("200 Ok"));
-        assertThat(result.text(), is(""));
-        assertThat(result.status(), is("204 No Content"));
-    }
 }

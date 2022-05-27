@@ -17,7 +17,7 @@ public class QueueService implements Service {
             resp = param.isEmpty() ? new Resp(param, "200 Ok") : new Resp(param, "201 Created");
         } else if ("GET".equals(req.httpRequestType())) {
             String text = queues.getOrDefault(req.getSourceName(), new ConcurrentLinkedQueue<>()).poll();
-            resp = text == null || text.isEmpty() ? new Resp("", "204 No Content") : new Resp(text, "200 Ok");
+            resp = text == null ? new Resp("", "204 No Content") : new Resp(text, "200 Ok");
         }
         return resp;
     }
