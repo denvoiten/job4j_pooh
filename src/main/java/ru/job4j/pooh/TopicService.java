@@ -9,7 +9,7 @@ public class TopicService implements Service {
 
     @Override
     public Resp process(Req req) {
-        Resp resp;
+        Resp resp = new Resp(req.httpRequestType(), "501 Not Implemented");
         var param = req.getParam();
         var sourceName = req.getSourceName();
         if ("POST".equals(req.httpRequestType())) {
@@ -25,8 +25,6 @@ public class TopicService implements Service {
             topics.get(sourceName).putIfAbsent(param, new ConcurrentLinkedQueue<>());
             String text = topics.get(sourceName).get(param).poll();
             resp = text == null ? new Resp("", "204 No Content") : new Resp(text, "200 Ok");
-        } else {
-            resp = new Resp(req.httpRequestType(), "501 Not Implemented");
         }
         return resp;
     }

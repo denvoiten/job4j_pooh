@@ -9,7 +9,7 @@ public class QueueService implements Service {
 
     @Override
     public Resp process(Req req) {
-        Resp resp;
+        Resp resp = new Resp(req.httpRequestType(), "501 Not Implemented");
         String param = req.getParam();
         if ("POST".equals(req.httpRequestType())) {
             queues.putIfAbsent(req.getSourceName(), new ConcurrentLinkedQueue<>());
@@ -18,8 +18,6 @@ public class QueueService implements Service {
         } else if ("GET".equals(req.httpRequestType())) {
             String text = queues.getOrDefault(req.getSourceName(), new ConcurrentLinkedQueue<>()).poll();
             resp = text == null || text.isEmpty() ? new Resp("", "204 No Content") : new Resp(text, "200 Ok");
-        } else {
-            resp = new Resp(req.httpRequestType(), "501 Not Implemented");
         }
         return resp;
     }
